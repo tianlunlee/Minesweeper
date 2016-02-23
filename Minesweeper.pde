@@ -39,8 +39,8 @@ public void setBombs()
     }
     System.out.print(bombs.size());
 
-}
 
+}
 public void draw ()
 {
     background( 0 );
@@ -94,6 +94,19 @@ public class MSButton
     {
         clicked = true;
         //your code here
+        if(keyPressed == true) {
+            clicked = !clicked;
+        }
+        else if (bombs.contains(this)) {
+            displayLosingMessage();
+        }
+        else if (countBombs(r, c) >0) {
+            label = "" + countBombs(r, c);
+            
+            }
+        else{
+
+        }
     }
 
     public void draw () 
@@ -118,12 +131,26 @@ public class MSButton
     public boolean isValid(int r, int c)
     {
         //your code here
+        if(r >-1 && c > -1 && r < 21 && c < 21) {
+            return true;
+        }
+
         return false;
     }
     public int countBombs(int row, int col)
     {
         int numBombs = 0;
         //your code here
+
+        //may need to check to see if neighboring buttons are valid
+        for(int j = -1; j < 2; j++) {
+            for (int i = -1; i< 2; i++) {
+                if(bombs.contains(buttons[row+j][col+i])) {
+                    numBombs++;
+                 } 
+            }
+        }
+       
         return numBombs;
     }
 }
