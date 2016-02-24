@@ -38,6 +38,7 @@ public void setBombs()
     }
     }
     System.out.print(bombs.size());
+    
 
 
 }
@@ -101,7 +102,7 @@ public class MSButton
             displayLosingMessage();
         }
         else if (countBombs(r, c) >0) {
-            label = "" + countBombs(r, c);
+            setLabel(Integer.toString(countBombs(r, c)));
             
             }
         else{
