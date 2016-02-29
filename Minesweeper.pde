@@ -1,8 +1,8 @@
 
 
 import de.bezier.guido.*;
-int NUM_ROWS = 20;
-int NUM_COLS = 20;
+final static int NUM_ROWS = 20;
+final static int NUM_COLS = 20;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> bombs = new ArrayList <MSButton>(); //ArrayList of just the minesweeper buttons that are mined
 
@@ -28,11 +28,11 @@ void setup ()
 public void setBombs()
 {
     int row, col, num;
-    num = (int)(Math.random()*60)+30;
+    num = (int)(Math.random()*10)+15;
 
     for(int q = 0; q < num; q++) {
-        row = (int)(Math.random()*20);
-        col = (int)(Math.random()*20);
+        row = (int)(Math.random()*NUM_ROWS);
+        col = (int)(Math.random()*NUM_COLS);
         if(!bombs.contains(buttons[row][col])){
             bombs.add(buttons[row][col]);
     }
@@ -51,6 +51,7 @@ public void draw ()
 public boolean isWon()
 {
     //your code here
+
     return false;
 }
 public void displayLosingMessage()
@@ -96,7 +97,7 @@ public class MSButton
         clicked = true;
         //your code here
         if(keyPressed == true) {
-            clicked = !clicked;
+            marked = !marked;
         }
         else if (bombs.contains(this)) {
             displayLosingMessage();
@@ -105,18 +106,19 @@ public class MSButton
             setLabel(Integer.toString(countBombs(r, c)));
         
         }
-        if(!bombs.contains(buttons[r][c])) {
 
-            if(isValid(r,c-1) && !buttons[r][c-1].isMarked()) {
+        else {
+
+            if(isValid(r,c-1) && !buttons[r][c-1].isClicked()) {
                 buttons[r][c-1].mousePressed();
           }
-            if(isValid(r,c+1) && !buttons[r][c+1].isMarked()) {
+            if(isValid(r,c+1) && !buttons[r][c+1].isClicked()) {
                 buttons[r][c+1].mousePressed();
           }
-            if(isValid(r+1,c) && !buttons[r+1][c].isMarked()) {
+            if(isValid(r+1,c) && !buttons[r+1][c].isClicked()) {
                 buttons[r+1][c].mousePressed();
           }
-            if(isValid(r-1,c) && !buttons[r-1][c].isMarked()){
+            if(isValid(r-1,c) && !buttons[r-1][c].isClicked()){
                 buttons[r-1][c].mousePressed();
 
         }
