@@ -28,8 +28,8 @@ void setup ()
 public void setBombs()
 {
     int row, col, num;
-    num = (int)(Math.random()*5)+80;
-
+    //num = (int)(Math.random()*5)+80;
+    num = 2;
     for(int q = 0; q < num; q++) {
         row = (int)(Math.random()*NUM_ROWS);
         col = (int)(Math.random()*NUM_COLS);
@@ -45,22 +45,33 @@ public void setBombs()
 public void draw ()
 {
     background( 0 );
+
     if(isWon())
+
         displayWinningMessage();
 }
 public boolean isWon()
 {
     //your code here
 
-        for (int i = 0; i < notBombs.size(); i++) {
-            if (notBombs[i].isClicked() == false) {
-                return false;
+    int buttCount = 0;
+        for (int j = 0; j < NUM_ROWS; j++) {
+            for (int i = 0; i < NUM_COLS; i++) {
+                if(!bombs.contains(buttons[j][i])) {
+                    if (buttons[j][i].isClicked() == true) {
+                        buttCount++;
+                    }
+                }
             }
+        }
+
     
-    }
-
-
+if(buttCount == (NUM_ROWS*NUM_COLS) - bombs.size()) {
     return true;
+
+}
+
+    return false;
 }
 public void displayLosingMessage()
 {
@@ -71,7 +82,8 @@ public void displayLosingMessage()
 public void displayWinningMessage()
 {
     //your code here
-    System.out.println("win");
+    
+    text("win == true", 200, 200);
 }
 
 public class MSButton
