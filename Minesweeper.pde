@@ -3,12 +3,14 @@
 import de.bezier.guido.*;
 final static int NUM_ROWS = 30;
 final static int NUM_COLS = 30;
+boolean yaLost = false;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> bombs = new ArrayList <MSButton>(); //ArrayList of just the minesweeper buttons that are mined
 public ArrayList <MSButton> notBombs = new ArrayList <MSButton>();
 void setup ()
 {
-    size(540, 540);
+    size(540, 600);
+    textSize(10);
     textAlign(CENTER,CENTER);
     
     // make the manager
@@ -28,8 +30,8 @@ void setup ()
 public void setBombs()
 {
     int row, col, num;
-    //num = (int)(Math.random()*5)+80;
-    num = 2;
+    num = (int)(Math.random()*5)+80;
+    //num = 2;
     for(int q = 0; q < num; q++) {
         row = (int)(Math.random()*NUM_ROWS);
         col = (int)(Math.random()*NUM_COLS);
@@ -45,11 +47,16 @@ public void setBombs()
 public void draw ()
 {
     background( 0 );
+    fill(100);
+    rect(0,540, 540, 600);
+    if(yaLost == true) 
+        displayLosingMessage();
 
-    if(isWon())
-
-        displayWinningMessage();
+    if(isWon() && yaLost == false)
+            displayWinningMessage();
 }
+    
+  
 public boolean isWon()
 {
     //your code here
@@ -78,12 +85,29 @@ public void displayLosingMessage()
     //your code here
 
 
+    fill(255, 0, 0);
+    textSize(32);
+    text("congratulations, you lost", 270, 570);
+
+    textSize(10);
+
 }
 public void displayWinningMessage()
 {
     //your code here
-    
-    text("win == true", 200, 200);
+    fill(100);
+
+    fill(0);
+    textSize(32);
+    text("win == true", 270, 570);
+    textSize(10);
+}
+public void reveal() {
+    if(yaLost) {
+        for(int i = 0; i < bombs.size(); i++) {
+            bombs.get(i).mousePressed();
+        }
+    }
 }
 
 public class MSButton
@@ -114,18 +138,22 @@ public class MSButton
         return clicked;
     }
     // called by manager
-    
+    public void setClicked() {
+        clicked = true;
+    }
     public void mousePressed () 
     {
         clicked = true;
         //your code here
-        if(keyPressed == true) {
+        if(mousePressed && mouseButton == RIGHT) {
             marked = !marked;
         }
         else if (bombs.contains(this)) {
+            yaLost = true;
+            reveal();
             displayLosingMessage();
         }
-        else if (countBombs(r, c) >0) {
+        else if (countBombs(r, c) > 0) {
             setLabel(Integer.toString(countBombs(r, c)));
         
         }
@@ -149,6 +177,7 @@ public class MSButton
 
     }
 }
+
     public void draw () 
     {    
         if (marked)
