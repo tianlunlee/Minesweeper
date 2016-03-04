@@ -105,7 +105,7 @@ public void displayWinningMessage()
 public void reveal() {
     if(yaLost) {
         for(int i = 0; i < bombs.size(); i++) {
-            bombs.get(i).mousePressed();
+            bombs.get(i).draw();
         }
     }
 }
@@ -144,13 +144,12 @@ public class MSButton
     public void mousePressed () 
     {
         clicked = true;
-        //your code here
         if(mousePressed && mouseButton == RIGHT) {
             marked = !marked;
         }
         else if (bombs.contains(this)) {
             yaLost = true;
-            reveal();
+
             displayLosingMessage();
         }
         else if (countBombs(r, c) > 0) {
@@ -184,6 +183,7 @@ public class MSButton
             fill(0);
         else if( clicked && bombs.contains(this) ) 
             fill(255,0,0);
+
         else if(clicked)
             fill( 200 );
         else 
