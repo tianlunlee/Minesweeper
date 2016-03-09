@@ -88,7 +88,14 @@ public void displayLosingMessage()
     fill(255, 0, 0);
     textSize(32);
     text("congratulations, you lost", 270, 570);
+    for (int r = 0; r < NUM_ROWS; r++) {
+        for (int c = 0; c < NUM_COLS; c++) {
+            if (bombs.contains(buttons[r][c]) && !buttons[r][c].isClicked()) {
+                buttons[r][c].mousePressed();
+            }
+        }
 
+    }
     textSize(10);
 
 }
@@ -102,13 +109,7 @@ public void displayWinningMessage()
     text("win == true", 270, 570);
     textSize(10);
 }
-public void reveal() {
-    if(yaLost) {
-        for(int i = 0; i < bombs.size(); i++) {
-            bombs.get(i).draw();
-        }
-    }
-}
+
 
 public class MSButton
 {
@@ -143,11 +144,13 @@ public class MSButton
     }
     public void mousePressed () 
     {
-        clicked = true;
-        if(mousePressed && mouseButton == RIGHT) {
+        if(mousePressed && mouseButton == RIGHT && !clicked) {
             marked = !marked;
         }
-        else if (bombs.contains(this)) {
+        else{
+
+            clicked = true;
+        if (bombs.contains(this)) {
             yaLost = true;
 
             displayLosingMessage();
@@ -172,8 +175,20 @@ public class MSButton
                 buttons[r-1][c].mousePressed();
 
         }
-       
+            if(isValid(r-1,c-1) && !buttons[r-1][c-1].isClicked()) {
+                buttons[r-1][c-1].mousePressed();
+          }
+            if(isValid(r+1,c+1) && !buttons[r+1][c+1].isClicked()) {
+                buttons[r+1][c+1].mousePressed();
+          }
+            if(isValid(r+1,c-1) && !buttons[r+1][c-1].isClicked()) {
+                buttons[r+1][c-1].mousePressed();
+          }
+            if(isValid(r-1,c+1) && !buttons[r-1][c+1].isClicked()){
+                buttons[r-1][c+1].mousePressed();
 
+        }
+}
     }
 }
 
