@@ -39,7 +39,7 @@ public void setBombs()
             bombs.add(buttons[row][col]);
     }
     }
-    System.out.print(bombs.size());
+
     
 
 
